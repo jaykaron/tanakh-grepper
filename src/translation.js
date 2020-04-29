@@ -50,13 +50,20 @@ const SECTIONS = {
 const HEBREW = {
   'Section': 'חלק',
   'Book': 'ספר',
+  'Chapter': 'פרק',
   'Verse': 'פסוק',
   'Text': 'כתוב',
   'Search': 'חיפוש',
+  'All': 'הכל',
   ...SECTIONS,
   ...BOOK_NAMES
 }
 
-const getText = (text, lang) => lang === 'he' ? HEBREW[text] : text
+const getText = (text, lang) => {
+  if (lang === 'en') {
+    return text
+  }
+  return HEBREW[text] || text
+}
 
 export { getText }
