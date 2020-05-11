@@ -65,7 +65,7 @@ const _searchChapter = (chapterText, regex) => {
 const searchLine = (line, regex) => {
   let match = regex.exec(line)
   if (match) {
-    return { match: match[0], text: match.input }
+    return { match: match[0], text: match.input, index: match.index }
   }
 }
 

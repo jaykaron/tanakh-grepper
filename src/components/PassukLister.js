@@ -26,18 +26,31 @@ const PassukLister = ({ passukim, lang }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {passukim.map(({ book, chapter, line, match, text }, i) => (
+          {passukim.map(({ book, chapter, line, match, index, text }, i) => (
             <TableRow key={i}>
               <TableCell align={en ? 'left' : 'right'}>
                 {getText(book, lang)}
               </TableCell>
               <TableCell align="left">{chapter}:{line}</TableCell>
-              <TableCell align="right">{text}</TableCell>
+              <TableCell align="right">{boldMatch(text, match, index)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
+  )
+}
+
+
+function boldMatch(text, match, index) {
+  return (
+    <span>
+      {text.slice(0, index)}
+      <b>
+        {text.slice(index, index + match.length)}
+      </b>
+      {text.slice(index + match.length)}
+    </span>
   )
 }
 
