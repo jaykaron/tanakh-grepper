@@ -8,13 +8,15 @@ import { getText } from '../translation'
 const useStyles = makeStyles({
   root: {
     direction: props => props.lang === 'en' ? 'ltr' : 'rtl',
-    padding: '1rem',
+    paddingLeft: '2rem',
+    paddingRight: '2rem',
     paddingBottom: '1.5rem',
-    marginBottom: '2rem'
-  },
-  inner: {
-    marginLeft: '0.5rem',
-    marginRight: '0.5rem'
+    marginBottom: '2rem',
+    '& > *': {
+      marginLeft: '0.5rem',
+      marginRight: '0.5rem',
+      marginTop: '1rem'
+    }
   },
 });
 
@@ -59,21 +61,21 @@ const Search = ({ setResults, lang }) => {
   return (
     <Paper elevation={3} className={classes.root} >
       <Select label='Section' options={sectionTitles()} reliesOn='None'
-        lang={lang} className={classes.inner} style={{ minWidth: '8ch' }}
+        lang={lang} style={{ minWidth: '8ch' }}
         value={section} onValueChange={onSectionChange}
       />
       <Select label='Book' options={bookTitles(section)} reliesOn={section}
-        lang={lang} className={classes.inner} style={{ minWidth: '8ch' }}
+        lang={lang} style={{ minWidth: '8ch' }}
         value={book} onValueChange={onBookChange}
       />
       <Select label='Chapter' options={chapters}
         reliesOn={book} value={chapter} onValueChange={onChapterChange}
-        lang={lang} className={classes.inner} style={{ minWidth: '8ch' }}
+        lang={lang} style={{ minWidth: '8ch' }}
       />
       <TextField value={regex} onChange={onTextChange}
-        className={classes.inner} style={{ verticalAlign: 'bottom' }}
+        style={{ verticalAlign: 'bottom' }}
       />
-      <Button variant='contained' color='primary' className={classes.inner}
+      <Button variant='contained' color='primary'
         onClick={clickHandler} style={{ verticalAlign: 'bottom' }}
       >
         {getText('Search', lang)}

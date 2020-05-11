@@ -8,8 +8,11 @@ const PassukLister = ({ passukim, lang }) => {
   const en = lang === 'en'
   const tableStyle = {
     direction: en ? 'ltr' : 'rtl',
-    minWidth: '500px',
     maxHeight: '60vh'
+  }
+
+  if (passukim.length === 0) {
+    return null
   }
 
   return (
