@@ -20,6 +20,10 @@ function hebraicizeRegex(regexStr) {
 const search = async (section, book, chapter, regexStr) => {
   const allOrEmpty = str => str === 'All' || str === ''
 
+  if (regexStr === '') {
+    return []
+  }
+
   let regex = new RegExp(hebraicizeRegex(regexStr), 'g')
 
   if (allOrEmpty(section)) {
