@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/tanakh-grepper/precache-manifest.bf2b47bd42715a355fbe990fd40f1ff0.js"
+  "/tanakh-grepper/precache-manifest.80bb453a0913dd66a6b0be9eff07752f.js"
 );
 
 self.addEventListener('message', (event) => {
