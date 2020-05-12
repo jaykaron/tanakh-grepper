@@ -1,14 +1,28 @@
-import React from 'react'
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@material-ui/core'
+import React, { useState } from 'react'
+import {
+  Table,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableBody,
+  TablePagination,
+  Paper
+} from '@material-ui/core'
 
 import { getText } from '../translation'
 
+const rowsPerPage = 30
 
 const PassukLister = ({ passukim, lang }) => {
+  const [page, setPage] = useState(0)
+
   const en = lang === 'en'
   const tableStyle = {
     direction: en ? 'ltr' : 'rtl',
-    maxHeight: '60vh'
+    maxHeight: '60vh',
+    width: '100%',
+    maxWidth: '60rem'
   }
 
   if (passukim.length === 0) {
@@ -16,28 +30,40 @@ const PassukLister = ({ passukim, lang }) => {
   }
 
   return (
-    <TableContainer component={Paper} style={tableStyle}>
-      <Table stickyHeader aria-label="results table" size='small' >
-        <TableHead>
-          <TableRow>
-            <TableCell align={en ? 'left' : 'right'}>{getText('Book', lang)}</TableCell>
-            <TableCell align="center">{getText('Verse', lang)}</TableCell>
-            <TableCell align="center">{getText('Text', lang)}</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {passukim.map(({ book, chapter, line, matches, text }, i) => (
-            <TableRow key={i}>
-              <TableCell align={en ? 'left' : 'right'}>
-                {getText(book, lang)}
-              </TableCell>
-              <TableCell align="left">{chapter}:{line}</TableCell>
-              <TableCell align="right">{boldMatch(text, matches)}</TableCell>
+    <div >
+      <TablePagination
+        component="div"
+        count={passukim.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={(event, newPage) => setPage(newPage)}
+        rowsPerPageOptions={[rowsPerPage]}
+      />
+      <TableContainer component={Paper} style={tableStyle}>
+        <Table stickyHeader aria-label="results table" size='small' >
+          <TableHead>
+            <TableRow>
+              <TableCell align={en ? 'left' : 'right'}>{getText('Book', lang)}</TableCell>
+              <TableCell align="center">{getText('Verse', lang)}</TableCell>
+              <TableCell align="center">{getText('Text', lang)}</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {passukim
+              .slice(rowsPerPage * page, rowsPerPage * (page + 1))
+              .map(({ book, chapter, line, matches, text }, i) => (
+                <TableRow key={i}>
+                  <TableCell align={en ? 'left' : 'right'}>
+                    {getText(book, lang)}
+                  </TableCell>
+                  <TableCell align="left">{chapter}:{line}</TableCell>
+                  <TableCell align="right">{boldMatch(text, matches)}</TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   )
 }
 
