@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/tanakh-grepper/static/css/main.5ecd60fb.chunk.css",
-    "main.js": "/tanakh-grepper/static/js/main.0110efcd.chunk.js",
-    "main.js.map": "/tanakh-grepper/static/js/main.0110efcd.chunk.js.map",
+    "main.js": "/tanakh-grepper/static/js/main.716fed40.chunk.js",
+    "main.js.map": "/tanakh-grepper/static/js/main.716fed40.chunk.js.map",
     "runtime-main.js": "/tanakh-grepper/static/js/runtime-main.e9b2a3bc.js",
     "runtime-main.js.map": "/tanakh-grepper/static/js/runtime-main.e9b2a3bc.js.map",
-    "static/js/2.c5c4f504.chunk.js": "/tanakh-grepper/static/js/2.c5c4f504.chunk.js",
-    "static/js/2.c5c4f504.chunk.js.map": "/tanakh-grepper/static/js/2.c5c4f504.chunk.js.map",
+    "static/js/2.e648bab3.chunk.js": "/tanakh-grepper/static/js/2.e648bab3.chunk.js",
+    "static/js/2.e648bab3.chunk.js.map": "/tanakh-grepper/static/js/2.e648bab3.chunk.js.map",
     "index.html": "/tanakh-grepper/index.html",
-    "precache-manifest.4244fa492eeb0c77c42e8f0a7ae95d54.js": "/tanakh-grepper/precache-manifest.4244fa492eeb0c77c42e8f0a7ae95d54.js",
+    "precache-manifest.9d4dd119b1e277b01ace5458f2de6047.js": "/tanakh-grepper/precache-manifest.9d4dd119b1e277b01ace5458f2de6047.js",
     "service-worker.js": "/tanakh-grepper/service-worker.js",
     "static/css/main.5ecd60fb.chunk.css.map": "/tanakh-grepper/static/css/main.5ecd60fb.chunk.css.map",
-    "static/js/2.c5c4f504.chunk.js.LICENSE.txt": "/tanakh-grepper/static/js/2.c5c4f504.chunk.js.LICENSE.txt"
+    "static/js/2.e648bab3.chunk.js.LICENSE.txt": "/tanakh-grepper/static/js/2.e648bab3.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.e9b2a3bc.js",
-    "static/js/2.c5c4f504.chunk.js",
+    "static/js/2.e648bab3.chunk.js",
     "static/css/main.5ecd60fb.chunk.css",
-    "static/js/main.0110efcd.chunk.js"
+    "static/js/main.716fed40.chunk.js"
   ]
 }
