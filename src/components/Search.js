@@ -20,13 +20,13 @@ const useStyles = makeStyles({
   },
 });
 
-
+const prefill = false
 const Search = ({ setResults, lang }) => {
-  const [section, setSection] = useState('')
-  const [book, setBook] = useState('')
-  const [chapter, setChapter] = useState('')
-  const [chapters, setChapters] = useState('')
-  const [regex, setRegex] = useState('')
+  const [section, setSection] = useState(!prefill ? '' : 'Torah')
+  const [book, setBook] = useState(!prefill ? '' : 'Genesis')
+  const [chapter, setChapter] = useState(!prefill ? '' : 1)
+  const [chapters, setChapters] = useState(!prefill ? '' : [1])
+  const [regex, setRegex] = useState(!prefill ? '' : '\\w')
 
   const classes = useStyles({ lang })
 
