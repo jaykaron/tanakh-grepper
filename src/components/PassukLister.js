@@ -26,13 +26,13 @@ const PassukLister = ({ passukim, lang }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {passukim.map(({ book, chapter, line, match, index, text }, i) => (
+          {passukim.map(({ book, chapter, line, matches, text }, i) => (
             <TableRow key={i}>
               <TableCell align={en ? 'left' : 'right'}>
                 {getText(book, lang)}
               </TableCell>
               <TableCell align="left">{chapter}:{line}</TableCell>
-              <TableCell align="right">{boldMatch(text, match, index)}</TableCell>
+              <TableCell align="right">{boldMatch(text, matches)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -42,15 +42,23 @@ const PassukLister = ({ passukim, lang }) => {
 }
 
 
-function boldMatch(text, match, index) {
+function boldMatch(text, matches) {
+  let result = ''
+  let trailingIndex = 0
+  for (let i = 0; i < matches.length; i++) {
+    const index = matches[i].index
+    const len = matches[i].match.length
+
+    result += text.slice(trailingIndex, index)
+    result += '<b>'
+    result += text.slice(index, index + len)
+    result += '</b>'
+    trailingIndex = index + len
+  }
+  result += text.slice(trailingIndex)
+
   return (
-    <span>
-      {text.slice(0, index)}
-      <b>
-        {text.slice(index, index + match.length)}
-      </b>
-      {text.slice(index + match.length)}
-    </span>
+    <span dangerouslySetInnerHTML={{ __html: result }} />
   )
 }
 

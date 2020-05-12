@@ -74,10 +74,22 @@ const _searchChapter = (chapterText, regex) => {
 }
 
 const searchLine = (line, regex) => {
-  let match = regex.exec(line)
-  if (match) {
-    return { match: match[0], text: match.input, index: match.index }
+  let matches = []
+  let result = {
+    text: line,
+    matches
   }
+
+  let match = regex.exec(line)
+  while (match !== null) {
+    matches.push({ match: match[0], index: match.index })
+    match = regex.exec(line)
+  }
+
+  if (matches.length === 0) {
+    return null
+  }
+  return result
 }
 
 const _TOC = {
