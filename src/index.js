@@ -4,7 +4,6 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-document.body.dir = 'rtl'
 ReactDOM.render(
   <React.StrictMode>
     <App />

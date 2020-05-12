@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button } from '@material-ui/core'
 import Search from './components/Search'
 import PassukLister from './components/PassukLister'
+import Welcome from './components/Welcome'
 
 const style = {
   main: {
@@ -24,8 +25,11 @@ const style = {
 function App() {
   const [results, setResults] = useState([])
   const [lang, setLang] = useState('en')
+  const [welcomeOpen, setWelcomeOpen] = useState(true)
+
   return (
     <div style={style.main}>
+      <Welcome open={welcomeOpen} onClose={() => setWelcomeOpen(false)} />
       <Search setResults={setResults} lang={lang} />
       <PassukLister lang={lang} passukim={results} />
       <Button variant='contained' style={style.langButton}
