@@ -26,7 +26,7 @@ const Search = ({ setResults, lang }) => {
   const [book, setBook] = useState('')
   const [chapter, setChapter] = useState('')
   const [chapters, setChapters] = useState('')
-  const [regex, setRegex] = useState('ראש')
+  const [regex, setRegex] = useState('')
 
   const classes = useStyles({ lang })
 

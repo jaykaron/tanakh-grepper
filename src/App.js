@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { Button } from '@material-ui/core'
+import { Button, IconButton, SvgIcon, makeStyles } from '@material-ui/core'
 import Search from './components/Search'
 import PassukLister from './components/PassukLister'
 import Welcome from './components/Welcome'
 
-const style = {
+const useStyles = makeStyles(() => ({
   main: {
     textAlign: 'center',
     minHeight: '100vh',
@@ -15,31 +15,43 @@ const style = {
     maxWidth: '90%',
     margin: 'auto'
   },
-  langButton: {
+  bottomButtons: {
     position: 'absolute',
-    bottom: 20,
-    left: 30
+    bottom: 10,
+    left: 10,
+    '& > button': {
+      marginRight: '1rem'
+    }
   }
-}
+}))
 
 function App() {
   const [results, setResults] = useState([])
   const [lang, setLang] = useState('en')
   const [welcomeOpen, setWelcomeOpen] = useState(true)
+  const classes = useStyles()
 
   return (
-    <div style={style.main}>
+    <div className={classes.main}>
       <Welcome open={welcomeOpen} onClose={() => setWelcomeOpen(false)} />
       <Search setResults={setResults} lang={lang} />
       <PassukLister lang={lang} passukim={results} />
-      <Button variant='contained' style={style.langButton}
-        size='small'
-        onClick={() => {
-          setLang(lang === 'en' ? 'he' : 'en')
-        }}>
-        {lang === 'en' ? 'עברית' : 'English'}
-      </Button>
-    </div >
+      <div className={classes.bottomButtons}>
+        <IconButton onClick={() => setWelcomeOpen(true)}>
+          <SvgIcon>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </SvgIcon>
+        </IconButton>
+        <Button variant='contained' size='small'
+          onClick={() => {
+            setLang(lang === 'en' ? 'he' : 'en')
+          }}>
+          {lang === 'en' ? 'עברית' : 'English'}
+        </Button>
+      </div>
+    </div>
   );
 }
 
