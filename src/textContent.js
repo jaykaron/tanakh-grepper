@@ -8,9 +8,20 @@ const loadJsonBook = (section, book, chapter) => {
   return text
 }
 
+/**
+ * Replace some of the regex match characters with hebrew equivalents
+ */
+function hebraicizeRegex(regexStr) {
+  return regexStr
+    .replace(/\\w/g, '[א-ת]')
+    .replace(/\\W/g, '[^א-ת0-9_]')
+}
+
 const search = async (section, book, chapter, regexStr) => {
   const allOrEmpty = str => str === 'All' || str === ''
-  let regex = new RegExp(regexStr, 'g')
+
+  let regex = new RegExp(hebraicizeRegex(regexStr), 'g')
+
   if (allOrEmpty(section)) {
     return searchAll(regex)
   } else if (allOrEmpty(book)) {
