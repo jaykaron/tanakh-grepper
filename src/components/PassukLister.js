@@ -7,10 +7,24 @@ import {
   TableRow,
   TableBody,
   TablePagination,
-  Paper
+  Paper,
+  makeStyles
 } from '@material-ui/core'
 
 import { getText } from '../translation'
+
+const useStyles = makeStyles({
+  table: {
+    direction: props => props.lang === 'en' ? 'ltr' : 'rtl',
+    width: '100%',
+    maxWidth: '60rem',
+    maxHeight: '60vh'
+  },
+  caption: {
+    direction: props => props.lang === 'en' ? 'ltr' : 'rtl',
+  }
+})
+
 
 const rowsPerPage = 30
 
@@ -18,12 +32,7 @@ const PassukLister = ({ passukim, lang }) => {
   const [page, setPage] = useState(0)
 
   const en = lang === 'en'
-  const tableStyle = {
-    direction: en ? 'ltr' : 'rtl',
-    maxHeight: '60vh',
-    width: '100%',
-    maxWidth: '60rem'
-  }
+  const classes = useStyles({ lang })
 
   if (passukim.length === 0) {
     return null
@@ -32,14 +41,19 @@ const PassukLister = ({ passukim, lang }) => {
   return (
     <div >
       <TablePagination
+        classes={{ caption: classes.caption }}
         component="div"
         count={passukim.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={(event, newPage) => setPage(newPage)}
         rowsPerPageOptions={[rowsPerPage]}
+        labelDisplayedRows={({ from, to, count }) => (
+          `${from}-${to === -1 ? count : to} ${getText('of', lang)}
+            ${count !== -1 ? count : `${getText('more than', lang)} ${to}`}`
+        )}
       />
-      <TableContainer component={Paper} style={tableStyle}>
+      <TableContainer component={Paper} className={classes.table}>
         <Table stickyHeader aria-label="results table" size='small' >
           <TableHead>
             <TableRow>

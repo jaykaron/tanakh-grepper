@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
     margin: 'auto'
   },
   bottomButtons: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: 10,
     left: 10,
     '& > button': {
@@ -29,7 +29,7 @@ const useStyles = makeStyles(() => ({
 function App() {
   const [results, setResults] = useState([])
   const [lang, setLang] = useState('en')
-  const [welcomeOpen, setWelcomeOpen] = useState(false)
+  const [welcomeOpen, setWelcomeOpen] = useState(true)
   const classes = useStyles()
 
   return (

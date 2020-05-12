@@ -47,6 +47,10 @@ const SECTIONS = {
   'Writings': 'כתובים'
 }
 
+const MISC = {
+  'of': 'מתוך',
+  'more than': 'יותר מ'
+}
 const HEBREW = {
   'Section': 'חלק',
   'Book': 'ספר',
@@ -56,7 +60,8 @@ const HEBREW = {
   'Search': 'חיפוש',
   'All': 'הכל',
   ...SECTIONS,
-  ...BOOK_NAMES
+  ...BOOK_NAMES,
+  ...MISC
 }
 
 const getText = (text, lang) => {
