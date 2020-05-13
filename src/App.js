@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { Button, IconButton, SvgIcon, makeStyles } from '@material-ui/core'
+import GithubCorner from 'react-github-corner'
+
 import Search from './components/Search'
 import PassukLister from './components/PassukLister'
 import Welcome from './components/Welcome'
-import GithubCorner from './components/GithubCorner'
 
 const useStyles = makeStyles(() => ({
   main: {
@@ -34,7 +35,12 @@ function App() {
 
   return (
     <div>
-      <GithubCorner />
+      <GithubCorner
+        href='https://github.com/jaykaron/tanakh-grepper/'
+        bannerColor="#151513"
+        octoColor="#fff"
+        size={80}
+        direction="left" />
       <div className={classes.main}>
         <Welcome open={welcomeOpen} onClose={() => setWelcomeOpen(false)} />
         <Search setResults={setResults} lang={lang} />
