@@ -49,7 +49,6 @@ const Welcome = ({ open, onClose }) => {
           <ul>
             <li>Text comes from <a href={SEFARIA_URL}>Sefaria.org</a></li>
             <li>To facillitate searching in Hebrew <code>\w</code> gets replaced with <code>[א-ת]</code></li>
-            <li>Searches are automatically global</li>
             <li>
               Searching is done in JavaScript.
               Read the <a href={REGEX_DOCS_URL}>docs</a> for the fine details
