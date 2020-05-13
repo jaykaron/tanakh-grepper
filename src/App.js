@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Button, IconButton, SvgIcon, makeStyles } from '@material-ui/core'
+import { Button, IconButton, makeStyles } from '@material-ui/core'
+import { GetApp, InfoOutlined } from '@material-ui/icons'
 import GithubCorner from 'react-github-corner'
 
 import Search from './components/Search'
@@ -25,7 +26,7 @@ const useStyles = makeStyles(() => ({
     bottom: 10,
     left: 10,
     '& > button': {
-      marginRight: '1rem'
+      marginRight: '0.5rem'
     }
   },
   logo: {
@@ -40,7 +41,13 @@ function App() {
   const [results, setResults] = useState([])
   const [lang, setLang] = useState('en')
   const [welcomeOpen, setWelcomeOpen] = useState(!DEBUG)
+  const [installEvent, setInstallEvent] = useState(null)
   const classes = useStyles()
+
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault()
+    setInstallEvent(event)
+  })
 
   return (
     <div>
@@ -56,17 +63,17 @@ function App() {
         <Search setResults={setResults} lang={lang} />
         <PassukLister lang={lang} passukim={results} />
         <div className={classes.bottomButtons}>
-          <IconButton onClick={() => setWelcomeOpen(true)}>
-            <SvgIcon>
-              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </SvgIcon>
+          <IconButton onClick={() => setWelcomeOpen(true)} title='Info'>
+            <InfoOutlined />
           </IconButton>
-          <Button variant='contained' size='small'
+          <IconButton disabled={installEvent === null} title='Install App'
             onClick={() => {
-              setLang(lang === 'en' ? 'he' : 'en')
+              installEvent && installEvent.prompt && installEvent.prompt()
             }}>
+            <GetApp />
+          </IconButton>
+          <Button variant='contained' size='small' title='Change Language'
+            onClick={() => setLang(lang === 'en' ? 'he' : 'en')}>
             {lang === 'en' ? 'עברית' : 'English'}
           </Button>
         </div>
