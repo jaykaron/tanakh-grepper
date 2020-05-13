@@ -58,6 +58,11 @@ const Search = ({ setResults, lang }) => {
   const onTextChange = ev => {
     setRegex(ev.target.value)
   }
+  const onTextKeyDown = ev => {
+    if (ev.key === 'Enter') {
+      clickHandler()
+    }
+  }
 
   return (
     <Paper elevation={3} className={classes.root} >
@@ -74,6 +79,7 @@ const Search = ({ setResults, lang }) => {
         lang={lang} style={{ minWidth: '8ch' }}
       />
       <TextField value={regex} onChange={onTextChange}
+        onKeyDown={onTextKeyDown}
         style={{ verticalAlign: 'bottom' }}
       />
       <Button variant='contained' color='primary'
