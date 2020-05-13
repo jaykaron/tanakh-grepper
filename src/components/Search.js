@@ -20,6 +20,10 @@ const useStyles = makeStyles({
       marginTop: '1rem'
     }
   },
+  search: {
+    fontFamily: 'Menlo, Monaco, monospace',
+    fontWeight: 'bold'
+  }
 });
 
 const Search = ({ setResults, lang }) => {
@@ -79,6 +83,7 @@ const Search = ({ setResults, lang }) => {
         lang={lang} style={{ minWidth: '8ch' }}
       />
       <TextField value={regex} onChange={onTextChange}
+        InputProps={{ classes: { root: classes.search } }}
         onKeyDown={onTextKeyDown}
         style={{ verticalAlign: 'bottom' }}
       />
