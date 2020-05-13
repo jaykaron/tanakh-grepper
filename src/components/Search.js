@@ -4,6 +4,7 @@ import { makeStyles, Paper, TextField, Button } from '@material-ui/core'
 import Select from './Select'
 import { search, bookTitles, sectionTitles, numChapters } from '../textContent'
 import { getText } from '../translation'
+import { DEBUG } from '../constants'
 
 const useStyles = makeStyles({
   root: {
@@ -21,13 +22,12 @@ const useStyles = makeStyles({
   },
 });
 
-const prefill = false
 const Search = ({ setResults, lang }) => {
-  const [section, setSection] = useState(!prefill ? '' : 'Torah')
-  const [book, setBook] = useState(!prefill ? '' : 'Genesis')
-  const [chapter, setChapter] = useState(!prefill ? '' : 1)
-  const [chapters, setChapters] = useState(!prefill ? '' : [1])
-  const [regex, setRegex] = useState(!prefill ? '' : '\\w')
+  const [section, setSection] = useState(!DEBUG ? '' : 'Torah')
+  const [book, setBook] = useState(!DEBUG ? '' : 'Genesis')
+  const [chapter, setChapter] = useState(!DEBUG ? '' : 1)
+  const [chapters, setChapters] = useState(!DEBUG ? '' : [1])
+  const [regex, setRegex] = useState(!DEBUG ? '' : '\\w')
 
   const classes = useStyles({ lang })
 

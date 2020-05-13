@@ -5,6 +5,7 @@ import GithubCorner from 'react-github-corner'
 import Search from './components/Search'
 import PassukLister from './components/PassukLister'
 import Welcome from './components/Welcome'
+import { DEBUG, REPO_URL } from './constants'
 
 import logo from './media/logo.png'
 
@@ -38,13 +39,13 @@ const useStyles = makeStyles(() => ({
 function App() {
   const [results, setResults] = useState([])
   const [lang, setLang] = useState('en')
-  const [welcomeOpen, setWelcomeOpen] = useState(true)
+  const [welcomeOpen, setWelcomeOpen] = useState(!DEBUG)
   const classes = useStyles()
 
   return (
     <div>
       <GithubCorner
-        href='https://github.com/jaykaron/tanakh-grepper/'
+        href={REPO_URL}
         bannerColor="#151513"
         octoColor="#fff"
         size={80}
