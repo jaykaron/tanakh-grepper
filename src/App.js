@@ -6,6 +6,8 @@ import Search from './components/Search'
 import PassukLister from './components/PassukLister'
 import Welcome from './components/Welcome'
 
+import logo from './media/logo.png'
+
 const useStyles = makeStyles(() => ({
   main: {
     textAlign: 'center',
@@ -24,6 +26,12 @@ const useStyles = makeStyles(() => ({
     '& > button': {
       marginRight: '1rem'
     }
+  },
+  logo: {
+    position: 'fixed',
+    top: 0,
+    right: 10,
+    width: 75
   }
 }))
 
@@ -41,6 +49,7 @@ function App() {
         octoColor="#fff"
         size={80}
         direction="left" />
+      <img src={logo} className={classes.logo} alt='logo' />
       <div className={classes.main}>
         <Welcome open={welcomeOpen} onClose={() => setWelcomeOpen(false)} />
         <Search setResults={setResults} lang={lang} />

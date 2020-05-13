@@ -8,6 +8,7 @@ import { getText } from '../translation'
 const useStyles = makeStyles({
   root: {
     direction: props => props.lang === 'en' ? 'ltr' : 'rtl',
+    zIndex: 1,
     marginTop: '1rem',
     paddingLeft: '2rem',
     paddingRight: '2rem',
