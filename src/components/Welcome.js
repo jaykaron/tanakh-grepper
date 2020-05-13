@@ -30,7 +30,7 @@ const Welcome = ({ open, onClose }) => {
           who have working experience with regular expressions).
           </DialogText>
         <DialogText>
-          Like what if you want to find all the times a letter appears 3 times in
+          Like what, if you want to find all the times a letter appears 3 times in
             a row within one word? Simple <code>{TRIPLE_REGEX}</code> and bam.
           </DialogText>
         <DialogText>

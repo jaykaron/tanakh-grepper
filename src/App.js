@@ -28,7 +28,7 @@ const useStyles = makeStyles(() => ({
     }
   },
   logo: {
-    position: 'fixed',
+    position: 'absolute',
     top: 0,
     right: 10,
     width: 75
