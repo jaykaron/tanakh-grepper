@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Button, IconButton, makeStyles } from "@material-ui/core";
 import { GetApp, InfoOutlined } from "@material-ui/icons";
 import GithubCorner from "react-github-corner";
@@ -6,9 +6,11 @@ import GithubCorner from "react-github-corner";
 import Search from "./components/Search";
 import PassukLister from "./components/PassukLister";
 import Welcome from "./components/Welcome";
-import { DEBUG, REPO_URL } from "./constants";
+import { DEBUG, REPO_URL } from "./utils/constants";
 
 import logo from "./media/logo.png";
+import { useSetState } from "ahooks";
+import { stateFromUrl } from "./utils/url";
 
 const useStyles = makeStyles(() => ({
   main: {
@@ -38,17 +40,30 @@ const useStyles = makeStyles(() => ({
 }));
 
 function App() {
-  const [results, setResults] = useState([]);
-  const [lang, setLang] = useState("en");
-  const [welcomeOpen, setWelcomeOpen] = useState(!DEBUG);
-  const [installEvent, setInstallEvent] = useState(null);
   const classes = useStyles();
+
+  const [state, setState] = useSetState({
+    results: [],
+    lang: "en",
+    welcomeOpen: false,
+    installEvent: null,
+  });
+
+  useEffect(() => {
+    const urlState = stateFromUrl();
+    // only open welcome if query params are empty and DEBUG is false
+    setState({ welcomeOpen: Object.values(urlState).length <= 0 && !DEBUG });
+    
+    // setState is stable so can be left out of deps array
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   window.addEventListener("beforeinstallprompt", (event) => {
     event.preventDefault();
-    setInstallEvent(event);
+    setState({ installEvent: event });
   });
 
+  const { results, lang, welcomeOpen, installEvent } = state;
   return (
     <>
       <GithubCorner
@@ -60,11 +75,17 @@ function App() {
       />
       <img src={logo} className={classes.logo} alt="logo" />
       <div className={classes.main}>
-        <Welcome open={welcomeOpen} onClose={() => setWelcomeOpen(false)} />
-        <Search setResults={setResults} lang={lang} />
+        <Welcome
+          open={welcomeOpen}
+          onClose={() => setState({ welcomeOpen: false })}
+        />
+        <Search setResults={(results) => setState({ results })} lang={lang} />
         <PassukLister lang={lang} passukim={results} />
         <div className={classes.bottomButtons}>
-          <IconButton onClick={() => setWelcomeOpen(true)} title="Info">
+          <IconButton
+            onClick={() => setState({ welcomeOpen: true })}
+            title="Info"
+          >
             <InfoOutlined />
           </IconButton>
           <IconButton
@@ -78,7 +99,7 @@ function App() {
             variant="contained"
             size="small"
             title="Change Language"
-            onClick={() => setLang(lang === "en" ? "he" : "en")}
+            onClick={() => setState({ lang: lang === "en" ? "he" : "en" })}
           >
             {lang === "en" ? "עברית" : "English"}
           </Button>

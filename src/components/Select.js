@@ -11,7 +11,6 @@ const Select = ({
   reliesOn,
   lang,
   className,
-  style,
 }) => {
   const off = reliesOn === "" || reliesOn === "All";
 
@@ -37,7 +36,6 @@ const Select = ({
       label={getText(label, lang)}
       onChange={onValueChange}
       className={className}
-      style={style}
       disabled={off}
     >
       {choices}

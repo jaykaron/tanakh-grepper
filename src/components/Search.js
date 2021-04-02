@@ -5,7 +5,8 @@ import { useSetState } from "ahooks";
 import Select from "./Select";
 import { search, bookTitles, sectionTitles, numChapters } from "../textContent";
 import { getText } from "../translation";
-import { DEBUG } from "../constants";
+import { DEBUG } from "../utils/constants";
+import { stateFromUrl, setQueryUrl } from "../utils/url";
 
 const useStyles = makeStyles({
   root: {
@@ -25,26 +26,15 @@ const useStyles = makeStyles({
     fontFamily: "Menlo, Monaco, monospace",
     fontWeight: "bold",
   },
+  select: {
+    minWidth: "8ch",
+  },
+  alignBottom: {
+    verticalAlign: "bottom",
+  },
 });
 
-function setQueryUrl(search) {
-  const location = window.location;
-
-  const searchParams = new URLSearchParams(location.search);
-  searchParams.set("regex", search.regex);
-  searchParams.set("section", search.section || "");
-  searchParams.set("book", search.book || "");
-  searchParams.set("chapter", search.chapter || "");
-
-  const newUrl = `${location.protocol}//${location.host}${
-    location.pathname
-  }?${searchParams.toString()}`;
-  window.history.pushState({ path: newUrl }, "", newUrl);
-}
-
-const Search = ({ setResults, lang }) => {
-  const classes = useStyles({ lang });
-
+function useSearch(setResults) {
   const [inputState, setInputState] = useSetState({
     section: !DEBUG ? "" : "Torah",
     book: !DEBUG ? "" : "Genesis",
@@ -74,7 +64,7 @@ const Search = ({ setResults, lang }) => {
     });
 
   const onBookChange = (ev) => {
-    numChapters(section, ev.target.value)
+    numChapters(inputState.section, ev.target.value)
       .then((n) => [...Array(n).keys()].map((i) => i + 1))
       .then((chapters) =>
         setInputState({
@@ -94,32 +84,40 @@ const Search = ({ setResults, lang }) => {
     }
   };
 
+  // parse searchParams on mount and set state accordingly
   useEffect(() => {
-    if (window.location.search) {
-      const searchParams = new URLSearchParams(window.location.search);
-      const search = {};
-      const regex = searchParams.get("regex");
-      if (regex) {
-        search.regex = regex;
-      }
-      const section = searchParams.get("section");
-      if (section) {
-        search.section = section;
-        search.book = "";
-        search.chapter = "";
-      }
-      const book = searchParams.get("book");
-      if (book) {
-        search.book = book;
-      }
-      const chapter = searchParams.get("chapter");
-      if (chapter) {
-        search.chapter = chapter;
-      }
+    const search = stateFromUrl();
+    if (Object.values(search).length > 0) {
       setInputState(search);
       setSearchState(search);
     }
+    // setState is stable so can be left out of deps array
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  return {
+    inputState,
+    onSectionChange,
+    onBookChange,
+    onChapterChange,
+    onTextChange,
+    onTextKeyDown,
+    triggerSearch,
+  };
+}
+
+const Search = ({ setResults, lang }) => {
+  const classes = useStyles({ lang });
+
+  const {
+    inputState,
+    onSectionChange,
+    onBookChange,
+    onChapterChange,
+    onTextChange,
+    onTextKeyDown,
+    triggerSearch,
+  } = useSearch(setResults);
 
   const { section, book, chapter, chapters, regex } = inputState;
   return (
@@ -129,7 +127,7 @@ const Search = ({ setResults, lang }) => {
         options={sectionTitles()}
         reliesOn="None"
         lang={lang}
-        style={{ minWidth: "8ch" }}
+        className={classes.select}
         value={section}
         onValueChange={onSectionChange}
       />
@@ -138,7 +136,7 @@ const Search = ({ setResults, lang }) => {
         options={bookTitles(section)}
         reliesOn={section}
         lang={lang}
-        style={{ minWidth: "8ch" }}
+        className={classes.select}
         value={book}
         onValueChange={onBookChange}
       />
@@ -149,20 +147,20 @@ const Search = ({ setResults, lang }) => {
         value={chapter}
         onValueChange={onChapterChange}
         lang={lang}
-        style={{ minWidth: "8ch" }}
+        className={classes.select}
       />
       <TextField
         value={regex}
         onChange={onTextChange}
         InputProps={{ classes: { root: classes.search } }}
         onKeyDown={onTextKeyDown}
-        style={{ verticalAlign: "bottom" }}
+        className={classes.alignBottom}
       />
       <Button
         variant="contained"
         color="primary"
         onClick={triggerSearch}
-        style={{ verticalAlign: "bottom" }}
+        className={classes.alignBottom}
       >
         {getText("Search", lang)}
       </Button>
