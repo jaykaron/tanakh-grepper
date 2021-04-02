@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
   Table,
   TableCell,
@@ -8,38 +8,37 @@ import {
   TableBody,
   TablePagination,
   Paper,
-  makeStyles
-} from '@material-ui/core'
+  makeStyles,
+} from "@material-ui/core";
 
-import { getText } from '../translation'
+import { getText } from "../translation";
 
 const useStyles = makeStyles({
   table: {
-    direction: props => props.lang === 'en' ? 'ltr' : 'rtl',
-    width: '100%',
-    maxWidth: '60rem',
-    maxHeight: '60vh'
+    direction: (props) => (props.lang === "en" ? "ltr" : "rtl"),
+    width: "100%",
+    maxWidth: "60rem",
+    maxHeight: "60vh",
   },
   caption: {
-    direction: props => props.lang === 'en' ? 'ltr' : 'rtl',
-  }
-})
+    direction: (props) => (props.lang === "en" ? "ltr" : "rtl"),
+  },
+});
 
-
-const rowsPerPage = 30
+const rowsPerPage = 30;
 
 const PassukLister = ({ passukim, lang }) => {
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useState(0);
 
-  const en = lang === 'en'
-  const classes = useStyles({ lang })
+  const en = lang === "en";
+  const classes = useStyles({ lang });
 
   if (passukim.length === 0) {
-    return null
+    return null;
   }
 
   return (
-    <div >
+    <div>
       <TablePagination
         classes={{ caption: classes.caption }}
         component="div"
@@ -48,18 +47,20 @@ const PassukLister = ({ passukim, lang }) => {
         page={page}
         onChangePage={(event, newPage) => setPage(newPage)}
         rowsPerPageOptions={[rowsPerPage]}
-        labelDisplayedRows={({ from, to, count }) => (
-          `${from}-${to === -1 ? count : to} ${getText('of', lang)}
-            ${count !== -1 ? count : `${getText('more than', lang)} ${to}`}`
-        )}
+        labelDisplayedRows={({ from, to, count }) =>
+          `${from}-${to === -1 ? count : to} ${getText("of", lang)}
+            ${count !== -1 ? count : `${getText("more than", lang)} ${to}`}`
+        }
       />
       <TableContainer component={Paper} className={classes.table}>
-        <Table stickyHeader aria-label="results table" size='small' >
+        <Table stickyHeader aria-label="results table" size="small">
           <TableHead>
             <TableRow>
-              <TableCell align={en ? 'left' : 'right'}>{getText('Book', lang)}</TableCell>
-              <TableCell align="center">{getText('Verse', lang)}</TableCell>
-              <TableCell align="center">{getText('Text', lang)}</TableCell>
+              <TableCell align={en ? "left" : "right"}>
+                {getText("Book", lang)}
+              </TableCell>
+              <TableCell align="center">{getText("Verse", lang)}</TableCell>
+              <TableCell align="center">{getText("Text", lang)}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -67,39 +68,40 @@ const PassukLister = ({ passukim, lang }) => {
               .slice(rowsPerPage * page, rowsPerPage * (page + 1))
               .map(({ book, chapter, line, matches, text }, i) => (
                 <TableRow key={i}>
-                  <TableCell align={en ? 'left' : 'right'}>
+                  <TableCell align={en ? "left" : "right"}>
                     {getText(book, lang)}
                   </TableCell>
-                  <TableCell align="left">{chapter}:{line}</TableCell>
-                  <TableCell align="right">{boldMatch(text, matches)}</TableCell>
+                  <TableCell align="left">
+                    {chapter}:{line}
+                  </TableCell>
+                  <TableCell align="right">
+                    {boldMatch(text, matches)}
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>
         </Table>
       </TableContainer>
     </div>
-  )
-}
-
+  );
+};
 
 function boldMatch(text, matches) {
-  let result = ''
-  let trailingIndex = 0
+  let result = "";
+  let trailingIndex = 0;
   for (let i = 0; i < matches.length; i++) {
-    const index = matches[i].index
-    const len = matches[i].match.length
+    const index = matches[i].index;
+    const len = matches[i].match.length;
 
-    result += text.slice(trailingIndex, index)
-    result += '<b>'
-    result += text.slice(index, index + len)
-    result += '</b>'
-    trailingIndex = index + len
+    result += text.slice(trailingIndex, index);
+    result += "<b>";
+    result += text.slice(index, index + len);
+    result += "</b>";
+    trailingIndex = index + len;
   }
-  result += text.slice(trailingIndex)
+  result += text.slice(trailingIndex);
 
-  return (
-    <span dangerouslySetInnerHTML={{ __html: result }} />
-  )
+  return <span dangerouslySetInnerHTML={{ __html: result }} />;
 }
 
-export default PassukLister
+export default PassukLister;
