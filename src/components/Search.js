@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { makeStyles, Paper, TextField, Button } from "@material-ui/core";
 import { useSetState } from "ahooks";
 
@@ -81,9 +81,23 @@ const Search = ({ setResults, lang }) => {
     if (window.location.search) {
       const searchParams = new URLSearchParams(window.location.search);
       const search = {};
-      const regex = searchParams.get("rgx");
+      const regex = searchParams.get("regex");
       if (regex) {
         search.regex = regex;
+      }
+      const section = searchParams.get("section");
+      if (section) {
+        search.section = section;
+        search.book = "";
+        search.chapter = "";
+      }
+      const book = searchParams.get("book");
+      if (book) {
+        search.book = book;
+      }
+      const chapter = searchParams.get("chapter");
+      if (chapter) {
+        search.chapter = chapter;
       }
       handleSearch(search);
     }
