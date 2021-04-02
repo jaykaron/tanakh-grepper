@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles, Paper, TextField, Button } from "@material-ui/core";
 import { useSetState } from "ahooks";
 
@@ -27,8 +27,25 @@ const useStyles = makeStyles({
   },
 });
 
+function setQueryUrl(search) {
+  const location = window.location;
+
+  const searchParams = new URLSearchParams(location.search);
+  searchParams.set("regex", search.regex);
+  searchParams.set("section", search.section || "");
+  searchParams.set("book", search.book || "");
+  searchParams.set("chapter", search.chapter || "");
+
+  const newUrl = `${location.protocol}//${location.host}${
+    location.pathname
+  }?${searchParams.toString()}`;
+  window.history.pushState({ path: newUrl }, "", newUrl);
+}
+
 const Search = ({ setResults, lang }) => {
-  const [state, setState] = useSetState({
+  const classes = useStyles({ lang });
+
+  const [inputState, setInputState] = useSetState({
     section: !DEBUG ? "" : "Torah",
     book: !DEBUG ? "" : "Genesis",
     chapter: !DEBUG ? "" : 1,
@@ -36,21 +53,21 @@ const Search = ({ setResults, lang }) => {
     regex: !DEBUG ? "" : "\\w",
   });
 
-  const classes = useStyles({ lang });
+  const [searchState, setSearchState] = useState(undefined);
+  const triggerSearch = () => setSearchState(inputState);
 
-  const handleSearch = (searchState = undefined) => {
-    const mergedState = { ...state, ...searchState };
-    const { section, book, chapter, regex } = mergedState;
+  useEffect(() => {
     if (searchState) {
-      setState(searchState);
+      const { section, book, chapter, regex } = searchState;
+      search(section || "", book || "", chapter || "", regex).then((results) =>
+        setResults(results)
+      );
+      setQueryUrl(searchState);
     }
-    search(section, book, chapter, regex).then((results) =>
-      setResults(results)
-    );
-  };
+  }, [searchState, setResults]);
 
   const onSectionChange = (ev) =>
-    setState({
+    setInputState({
       section: ev.target.value,
       book: "",
       chapters: "",
@@ -60,7 +77,7 @@ const Search = ({ setResults, lang }) => {
     numChapters(section, ev.target.value)
       .then((n) => [...Array(n).keys()].map((i) => i + 1))
       .then((chapters) =>
-        setState({
+        setInputState({
           book: ev.target.value,
           chapter: "",
           chapters,
@@ -68,12 +85,12 @@ const Search = ({ setResults, lang }) => {
       );
   };
 
-  const onChapterChange = (ev) => setState({ chapter: ev.target.value });
-  const onTextChange = (ev) => setState({ regex: ev.target.value });
+  const onChapterChange = (ev) => setInputState({ chapter: ev.target.value });
+  const onTextChange = (ev) => setInputState({ regex: ev.target.value });
 
   const onTextKeyDown = (ev) => {
     if (ev.key === "Enter") {
-      handleSearch();
+      triggerSearch();
     }
   };
 
@@ -99,11 +116,12 @@ const Search = ({ setResults, lang }) => {
       if (chapter) {
         search.chapter = chapter;
       }
-      handleSearch(search);
+      setInputState(search);
+      setSearchState(search);
     }
   }, []);
 
-  const { section, book, chapter, chapters, regex } = state;
+  const { section, book, chapter, chapters, regex } = inputState;
   return (
     <Paper elevation={3} className={classes.root}>
       <Select
@@ -143,7 +161,7 @@ const Search = ({ setResults, lang }) => {
       <Button
         variant="contained"
         color="primary"
-        onClick={() => handleSearch()}
+        onClick={triggerSearch}
         style={{ verticalAlign: "bottom" }}
       >
         {getText("Search", lang)}
