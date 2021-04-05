@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Button, IconButton, makeStyles } from "@material-ui/core";
 import { GetApp, InfoOutlined } from "@material-ui/icons";
 import GithubCorner from "react-github-corner";
@@ -53,7 +53,7 @@ function App() {
     const urlState = stateFromUrl();
     // only open welcome if query params are empty and DEBUG is false
     setState({ welcomeOpen: Object.values(urlState).length <= 0 && !DEBUG });
-    
+
     // setState is stable so can be left out of deps array
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -62,6 +62,10 @@ function App() {
     event.preventDefault();
     setState({ installEvent: event });
   });
+
+  const setResults = useCallback((results) => setState({ results }), [
+    setState,
+  ]);
 
   const { results, lang, welcomeOpen, installEvent } = state;
   return (
@@ -79,7 +83,7 @@ function App() {
           open={welcomeOpen}
           onClose={() => setState({ welcomeOpen: false })}
         />
-        <Search setResults={(results) => setState({ results })} lang={lang} />
+        <Search setResults={setResults} lang={lang} />
         <PassukLister lang={lang} passukim={results} />
         <div className={classes.bottomButtons}>
           <IconButton
