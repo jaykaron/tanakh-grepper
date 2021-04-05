@@ -44,7 +44,7 @@ function useSearch(setResults) {
   });
 
   const [searchState, setSearchState] = useState(undefined);
-  const triggerSearch = () => setSearchState(inputState);
+  const triggerSearch = () => setSearchState({ ...inputState });
 
   useEffect(() => {
     if (searchState) {
@@ -91,9 +91,14 @@ function useSearch(setResults) {
       setInputState(search);
       setSearchState(search);
     }
-    // setState is stable so can be left out of deps array
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [setInputState]);
+
+  // update number of chapters on book change
+  useEffect(() => {
+    numChapters(inputState.section, inputState.book)
+      .then((n) => [...Array(n).keys()].map((i) => i + 1))
+      .then((chapters) => setInputState({ chapters }));
+  }, [inputState.section, inputState.book, setInputState]);
 
   return {
     inputState,
