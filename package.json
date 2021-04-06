@@ -12,6 +12,7 @@
     "ahooks": "^2.9.4",
     "jss-rtl": "^0.3.0",
     "react": "^16.13.1",
+    "react-copy-to-clipboard": "^5.0.3",
     "react-dom": "^16.13.1",
     "react-github-corner": "^2.3.0",
     "react-router-dom": "^5.2.0",
