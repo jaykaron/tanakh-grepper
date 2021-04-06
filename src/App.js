@@ -11,8 +11,8 @@ import { DEBUG, REPO_URL } from "./utils/constants";
 import logo from "./media/logo.png";
 import { useSetState } from "ahooks";
 import { searchFromUrl } from "./utils/url";
-import { useInstallEvent } from './utils/hooks';
-import CopyUrlButton from './components/CopyUrlButton';
+import { useInstallEvent } from "./utils/hooks";
+import CopyUrlButton from "./components/CopyUrlButton";
 
 const useStyles = makeStyles(() => ({
   main: {
