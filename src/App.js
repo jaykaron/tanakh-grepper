@@ -11,6 +11,7 @@ import { DEBUG, REPO_URL } from "./utils/constants";
 import logo from "./media/logo.png";
 import { useSetState } from "ahooks";
 import { searchFromUrl } from "./utils/url";
+import { useInstallEvent } from './utils/hooks';
 
 const useStyles = makeStyles(() => ({
   main: {
@@ -46,28 +47,21 @@ function App() {
     results: [],
     lang: "en",
     welcomeOpen: false,
-    installEvent: null,
   });
+
+  const installEvent = useInstallEvent();
 
   useEffect(() => {
     const urlState = searchFromUrl();
     // only open welcome if query params are empty and DEBUG is false
     setState({ welcomeOpen: Object.values(urlState).length <= 0 && !DEBUG });
-
-    // setState is stable so can be left out of deps array
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  window.addEventListener("beforeinstallprompt", (event) => {
-    event.preventDefault();
-    setState({ installEvent: event });
-  });
+  }, [setState]);
 
   const setResults = useCallback((results) => setState({ results }), [
     setState,
   ]);
 
-  const { results, lang, welcomeOpen, installEvent } = state;
+  const { results, lang, welcomeOpen } = state;
   return (
     <>
       <GithubCorner
