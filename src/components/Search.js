@@ -49,9 +49,14 @@ function useSearch(setResults) {
   useEffect(() => {
     if (searchState) {
       const { section, book, chapter, regex } = searchState;
-      search(section || "", book || "", chapter || "", regex).then((results) =>
-        setResults(results)
-      );
+      search(section || "", book || "", chapter || "", regex)
+        .then((results) => setResults(results))
+        .catch((err) => {
+          alert(
+            "Oh no! An error occurred!\nIt's likely that your regular expression was malformed. Check the dev console for more details."
+          );
+          console.log(err);
+        });
       setQueryUrl(searchState);
     }
   }, [searchState, setResults]);
