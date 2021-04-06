@@ -31,13 +31,13 @@ const Welcome = ({ open, onClose }) => {
           Welcome to a new way to search Tanakh!
         </DialogText>
         <DialogText>
-          Welcome to the site made for people (aka. me) who were just not
-          satisfied with the current options to search through Tanakh (and who
-          have working experience with regular expressions).
+          Welcome to the site made for people who were just not satisfied with
+          the current options to search through Tanakh (and who have working
+          experience with regular expressions).
         </DialogText>
         <DialogText>
-          Like what, if you want to find all the times a letter appears 3 times
-          in a row within one word? Simple{" "}
+          Like what if you want to find all the times a letter appears 3 times
+          in a row within one word? Simple:{" "}
           <code>
             <a href={searchToUrl({ regex: TRIPLE_REGEX })}>{TRIPLE_REGEX}</a>
           </code>{" "}
@@ -49,14 +49,14 @@ const Welcome = ({ open, onClose }) => {
           them?
           <small>
             {" "}
-            There are. Try out{" "}
+            Try out{" "}
             <code>
               <a href={searchToUrl({ regex: ALLIT_REGEX })}>{ALLIT_REGEX}</a>
             </code>
           </small>
         </DialogText>
         <DialogText>
-          If you aren't familiar with regular expressions they are a powerful
+          If you aren't familiar with regular expressions, they are a powerful
           way of finding patterns in text. You can read up about them on{" "}
           <a href={WIKI_URL}>Wikipedia</a> or this{" "}
           <a href={BLOG_URL}>random blog post</a>. I often use{" "}
