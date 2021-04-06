@@ -4,6 +4,7 @@ import {
   DialogContent,
   DialogContentText as DialogText,
 } from "@material-ui/core";
+import { searchToUrl } from "../utils/url";
 
 const WIKI_URL = "https://en.wikipedia.org/wiki/Regular_expression";
 const BLOG_URL = "https://codular.com/regex";
@@ -36,7 +37,11 @@ const Welcome = ({ open, onClose }) => {
         </DialogText>
         <DialogText>
           Like what, if you want to find all the times a letter appears 3 times
-          in a row within one word? Simple <code>{TRIPLE_REGEX}</code> and bam.
+          in a row within one word? Simple{" "}
+          <code>
+            <a href={searchToUrl({ regex: TRIPLE_REGEX })}>{TRIPLE_REGEX}</a>
+          </code>{" "}
+          and bam.
         </DialogText>
         <DialogText>
           The passuk אמר אויב ארדף אשיג אחלק שלל is famous for its alliteration
@@ -44,7 +49,10 @@ const Welcome = ({ open, onClose }) => {
           them?
           <small>
             {" "}
-            There are. Try out <code>{ALLIT_REGEX}</code>
+            There are. Try out{" "}
+            <code>
+              <a href={searchToUrl({ regex: ALLIT_REGEX })}>{ALLIT_REGEX}</a>
+            </code>
           </small>
         </DialogText>
         <DialogText>

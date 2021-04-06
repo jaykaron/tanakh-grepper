@@ -6,7 +6,7 @@ import Select from "./Select";
 import { search, bookTitles, sectionTitles, numChapters } from "../textContent";
 import { getText } from "../translation";
 import { DEBUG } from "../utils/constants";
-import { stateFromUrl, setQueryUrl } from "../utils/url";
+import { searchFromUrl, setQueryUrl } from "../utils/url";
 
 const useStyles = makeStyles({
   root: {
@@ -86,7 +86,7 @@ function useSearch(setResults) {
 
   // parse searchParams on mount and set state accordingly
   useEffect(() => {
-    const search = stateFromUrl();
+    const search = searchFromUrl();
     if (Object.values(search).length > 0) {
       setInputState(search);
       setSearchState(search);

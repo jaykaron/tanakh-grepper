@@ -10,7 +10,7 @@ import { DEBUG, REPO_URL } from "./utils/constants";
 
 import logo from "./media/logo.png";
 import { useSetState } from "ahooks";
-import { stateFromUrl } from "./utils/url";
+import { searchFromUrl } from "./utils/url";
 
 const useStyles = makeStyles(() => ({
   main: {
@@ -50,7 +50,7 @@ function App() {
   });
 
   useEffect(() => {
-    const urlState = stateFromUrl();
+    const urlState = searchFromUrl();
     // only open welcome if query params are empty and DEBUG is false
     setState({ welcomeOpen: Object.values(urlState).length <= 0 && !DEBUG });
 

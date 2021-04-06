@@ -1,6 +1,6 @@
 import { bookTitles, sectionTitles } from "../textContent";
 
-export function stateFromUrl() {
+export function searchFromUrl() {
   if (window.location.search) {
     const searchParams = new URLSearchParams(window.location.search);
     const search = {};
@@ -29,17 +29,24 @@ export function stateFromUrl() {
   return {};
 }
 
-export function setQueryUrl(search) {
+/**
+ * Generates a URL given a search.
+ * @param {any} search
+ */
+export function searchToUrl({ regex, section, book, chapter }) {
   const loc = window.location;
+  const searchParams = new URLSearchParams();
+  searchParams.set("regex", regex);
+  searchParams.set("section", section || "");
+  searchParams.set("book", book || "");
+  searchParams.set("chapter", chapter || "");
 
-  const searchParams = new URLSearchParams(loc.search);
-  searchParams.set("regex", search.regex);
-  searchParams.set("section", search.section || "");
-  searchParams.set("book", search.book || "");
-  searchParams.set("chapter", search.chapter || "");
-
-  const newUrl = `${loc.protocol}//${loc.host}${
+  return `${loc.protocol}//${loc.host}${
     loc.pathname
   }?${searchParams.toString()}`;
+}
+
+export function setQueryUrl(search) {
+  const newUrl = searchToUrl(search);
   window.history.pushState({ path: newUrl }, "", newUrl);
 }
