@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/tanakh-grepper/static/css/main.4a4137e4.chunk.css",
-    "main.js": "/tanakh-grepper/static/js/main.db6ebcf5.chunk.js",
-    "main.js.map": "/tanakh-grepper/static/js/main.db6ebcf5.chunk.js.map",
+    "main.js": "/tanakh-grepper/static/js/main.db31e02f.chunk.js",
+    "main.js.map": "/tanakh-grepper/static/js/main.db31e02f.chunk.js.map",
     "runtime-main.js": "/tanakh-grepper/static/js/runtime-main.6e176de4.js",
     "runtime-main.js.map": "/tanakh-grepper/static/js/runtime-main.6e176de4.js.map",
     "static/js/2.29770e80.chunk.js": "/tanakh-grepper/static/js/2.29770e80.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.6e176de4.js",
     "static/js/2.29770e80.chunk.js",
     "static/css/main.4a4137e4.chunk.css",
-    "static/js/main.db6ebcf5.chunk.js"
+    "static/js/main.db31e02f.chunk.js"
   ]
 }
