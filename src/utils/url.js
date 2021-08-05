@@ -50,3 +50,13 @@ export function setQueryUrl(search) {
   const newUrl = searchToUrl(search);
   window.history.pushState({ path: newUrl }, "", newUrl);
 }
+
+export function generateSefariaUrl(book, chapter, line) {
+  let bookStr = book;
+  if (/\d/.test(book)) {
+    const num = parseInt(book.slice(-1));
+    const name = book.slice(0, -1);
+    bookStr = `${Array(num).fill("I").join("")}_${name}`;
+  }
+  return `https://www.sefaria.org/${bookStr}.${chapter}.${line}/`;
+}

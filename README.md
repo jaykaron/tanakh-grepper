@@ -1,3 +1,9 @@
+# Tanakh Grepper
+
+## To Do
+[ ] Fill out this README
+[ ] Better handling of languages
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

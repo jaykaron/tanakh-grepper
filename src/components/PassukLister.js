@@ -10,14 +10,16 @@ import {
   Paper,
   makeStyles,
 } from "@material-ui/core";
+import { Launch as LaunchIcon } from "@material-ui/icons"
 
 import { getText } from "../translation";
+import { generateSefariaUrl } from '../utils/url';
 
 const useStyles = makeStyles({
   table: {
     direction: (props) => (props.lang === "en" ? "ltr" : "rtl"),
     width: "100%",
-    maxWidth: "60rem",
+    maxWidth: "75rem",
     maxHeight: "60vh",
   },
   caption: {
@@ -61,6 +63,7 @@ const PassukLister = ({ passukim, lang }) => {
               </TableCell>
               <TableCell align="center">{getText("Verse", lang)}</TableCell>
               <TableCell align="center">{getText("Text", lang)}</TableCell>
+              <TableCell align="center">Sefaria</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -76,6 +79,15 @@ const PassukLister = ({ passukim, lang }) => {
                   </TableCell>
                   <TableCell align="right">
                     {boldMatch(text, matches)}
+                  </TableCell>
+                  <TableCell align="center">
+                    <a 
+                      href={generateSefariaUrl(book, chapter, line)} 
+                      target="sefaria"
+                      rel="noopener"
+                    >
+                      <LaunchIcon fontSize="small" />
+                    </a>
                   </TableCell>
                 </TableRow>
               ))}
