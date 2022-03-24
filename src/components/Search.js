@@ -27,7 +27,7 @@ const useStyles = makeStyles({
     fontWeight: "bold",
   },
   select: {
-    minWidth: "8ch",
+    minWidth: "10ch",
   },
   alignBottom: {
     verticalAlign: "bottom",
