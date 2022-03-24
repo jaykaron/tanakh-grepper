@@ -1,18 +1,17 @@
 import React, { useCallback, useEffect } from "react";
-import { Button, IconButton, makeStyles } from "@material-ui/core";
-import { GetApp, InfoOutlined } from "@material-ui/icons";
+import { makeStyles } from "@material-ui/core";
 import GithubCorner from "react-github-corner";
+import { useSetState } from "ahooks";
+
+import { DEBUG, REPO_URL } from "./utils/constants";
+import { searchFromUrl } from "./utils/url";
 
 import Search from "./components/Search";
 import PassukLister from "./components/PassukLister";
 import Welcome from "./components/Welcome";
-import { DEBUG, REPO_URL } from "./utils/constants";
+import BottomBar  from "./components/BottomBar";
 
 import logo from "./media/logo.png";
-import { useSetState } from "ahooks";
-import { searchFromUrl } from "./utils/url";
-import { useInstallEvent } from "./utils/hooks";
-import CopyUrlButton from "./components/CopyUrlButton";
 
 const useStyles = makeStyles(() => ({
   main: {
@@ -24,14 +23,6 @@ const useStyles = makeStyles(() => ({
     justifyContent: "center",
     maxWidth: "90%",
     margin: "auto",
-  },
-  bottomButtons: {
-    position: "fixed",
-    bottom: 10,
-    left: 10,
-    "& > button": {
-      marginRight: "0.5rem",
-    },
   },
   logo: {
     position: "absolute",
@@ -49,8 +40,6 @@ function App() {
     lang: "en",
     welcomeOpen: false,
   });
-
-  const installEvent = useInstallEvent();
 
   useEffect(() => {
     const urlState = searchFromUrl();
@@ -80,30 +69,11 @@ function App() {
         />
         <Search setResults={setResults} lang={lang} />
         <PassukLister lang={lang} passukim={results} />
-        <div className={classes.bottomButtons}>
-          <IconButton
-            onClick={() => setState({ welcomeOpen: true })}
-            title="Info"
-          >
-            <InfoOutlined />
-          </IconButton>
-          <IconButton
-            disabled={installEvent === null}
-            title="Install App"
-            onClick={() => installEvent?.prompt?.()}
-          >
-            <GetApp />
-          </IconButton>
-          <CopyUrlButton />
-          <Button
-            variant="contained"
-            size="small"
-            title="Change Language"
-            onClick={() => setState({ lang: lang === "en" ? "he" : "en" })}
-          >
-            {lang === "en" ? "עברית" : "English"}
-          </Button>
-        </div>
+        <BottomBar
+          lang={lang}
+          onInfoClick={() => setState({ welcomeOpen: true })}
+          onLangClick={() => setState({ lang: lang === "en" ? "he" : "en" })}
+        />
       </div>
     </>
   );
