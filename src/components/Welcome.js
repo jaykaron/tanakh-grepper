@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogContent,
   DialogContentText as DialogText,
+  makeStyles,
 } from "@material-ui/core";
 import { searchToUrl } from "../utils/url";
 
@@ -17,9 +18,17 @@ const ISSUES_URL = "https://github.com/jaykaron/tanakh-grepper/issues";
 const TRIPLE_REGEX = /(\w)\1\1/.toString().slice(1, -1);
 const ALLIT_REGEX = /(^| )(\w)\w+( \2\w+){4,}/.toString().slice(1, -1);
 
+// @ts-ignore - need to override zIndex because ko-fi hard coded theirs and we want
+// the ko-fi widget to be under the dialog
+const useStyles = makeStyles(() => ({
+  main: { zIndex: "999999999!important" },
+}));
+
 const Welcome = ({ open, onClose }) => {
+  const classes = useStyles();
   return (
     <Dialog
+      className={classes.main}
       maxWidth="md"
       fullWidth
       open={open}
