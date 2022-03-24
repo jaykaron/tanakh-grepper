@@ -13,20 +13,16 @@ const useStyles = makeStyles(() => ({
     "& > button": {
       marginRight: "0.2rem",
     },
-  }
+  },
 }));
 
-const BottomBar = ({ lang, onInfoClick, onLangClick }) =>
-{
+const BottomBar = ({ lang, onInfoClick, onLangClick }) => {
   const classes = useStyles();
   const installEvent = useInstallEvent();
 
   return (
     <div className={classes.bottomButtons}>
-      <IconButton
-        onClick={onInfoClick}
-        title="Info"
-      >
+      <IconButton onClick={onInfoClick} title="Info">
         <InfoOutlined />
       </IconButton>
       <IconButton

@@ -10,10 +10,10 @@ import {
   Paper,
   makeStyles,
 } from "@material-ui/core";
-import { Launch as LaunchIcon } from "@material-ui/icons"
+import { Launch as LaunchIcon } from "@material-ui/icons";
 
 import { getText } from "../translation";
-import { generateSefariaUrl } from '../utils/url';
+import { generateSefariaUrl } from "../utils/url";
 
 const useStyles = makeStyles({
   table: {
@@ -81,8 +81,8 @@ const PassukLister = ({ passukim, lang }) => {
                     {boldMatch(text, matches)}
                   </TableCell>
                   <TableCell align="center">
-                    <a 
-                      href={generateSefariaUrl(book, chapter, line)} 
+                    <a
+                      href={generateSefariaUrl(book, chapter, line)}
                       target="sefaria"
                       rel="noopener"
                     >

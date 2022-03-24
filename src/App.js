@@ -9,7 +9,7 @@ import { searchFromUrl } from "./utils/url";
 import Search from "./components/Search";
 import PassukLister from "./components/PassukLister";
 import Welcome from "./components/Welcome";
-import BottomBar  from "./components/BottomBar";
+import BottomBar from "./components/BottomBar";
 
 import logo from "./media/logo.png";
 
