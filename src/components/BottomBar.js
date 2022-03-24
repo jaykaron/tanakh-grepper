@@ -3,6 +3,7 @@ import { Button, IconButton, makeStyles } from "@material-ui/core";
 import { GetApp, InfoOutlined } from "@material-ui/icons";
 import { useInstallEvent } from "../utils/hooks";
 import CopyUrlButton from "./CopyUrlButton";
+import SupportButton from "./SupportButton";
 
 const useStyles = makeStyles(() => ({
   bottomButtons: {
@@ -44,6 +45,7 @@ const BottomBar = ({ lang, onInfoClick, onLangClick }) =>
       >
         {lang === "en" ? "עברית" : "English"}
       </Button>
+      <SupportButton />
     </div>
   );
 };
