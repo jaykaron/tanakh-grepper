@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableCell,
@@ -35,6 +35,11 @@ const PassukLister = ({ passukim, lang }) => {
   const en = lang === "en";
   const classes = useStyles({ lang });
 
+  // back to first page when the results change.
+  useEffect(() => {
+    setPage(0);
+  }, [passukim]);
+
   if (passukim.length === 0) {
     return null;
   }
@@ -47,7 +52,7 @@ const PassukLister = ({ passukim, lang }) => {
         count={passukim.length}
         rowsPerPage={rowsPerPage}
         page={page}
-        onChangePage={(event, newPage) => setPage(newPage)}
+        onPageChange={(event, newPage) => setPage(newPage)}
         rowsPerPageOptions={[rowsPerPage]}
         labelDisplayedRows={({ from, to, count }) =>
           `${from}-${to === -1 ? count : to} ${getText("of", lang)}
