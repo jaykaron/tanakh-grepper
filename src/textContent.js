@@ -93,7 +93,7 @@ const searchLine = (line, regex) => {
 
   let match = regex.exec(line);
   while (match !== null) {
-    matches.push({ match: match[0], index: match.index });
+    matches.push({ match: match[0], index: match.index, _match: match });
     match = regex.exec(line);
   }
 

@@ -50,7 +50,10 @@ function useSearch(setResults) {
     if (searchState) {
       const { section, book, chapter, regex } = searchState;
       search(section || "", book || "", chapter || "", regex)
-        .then((results) => setResults(results))
+        .then((results) => {
+          window.tgResults = results;
+          setResults(results)
+        })
         .catch((err) => {
           alert(
             "Oh no! An error occurred!\nIt's likely that your regular expression was malformed. Check the dev console for more details."
