@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles, Paper, TextField, Button } from "@material-ui/core";
+import { makeStyles, Paper, TextField, Button, Menu, MenuItem, IconButton } from "@material-ui/core";
+import { History } from "@material-ui/icons";
 import { useSetState } from "ahooks";
 
 import Select from "./Select";
@@ -7,6 +8,7 @@ import { search, bookTitles, sectionTitles, numChapters } from "../textContent";
 import { getText } from "../translation";
 import { DEBUG } from "../utils/constants";
 import { searchFromUrl, setQueryUrl } from "../utils/url";
+import { getSearchHistory, addToSearchHistory } from "../utils/searchHistory";
 
 const useStyles = makeStyles({
   root: {
@@ -16,6 +18,9 @@ const useStyles = makeStyles({
     paddingLeft: "2rem",
     paddingRight: "2rem",
     paddingBottom: "1.5rem",
+    width: "100%",
+    maxWidth: "770px",
+    boxSizing: "border-box",
     "& > *": {
       marginLeft: "0.5rem",
       marginRight: "0.5rem",
@@ -32,6 +37,17 @@ const useStyles = makeStyles({
   alignBottom: {
     verticalAlign: "bottom",
   },
+  searchContainer: {
+    display: "flex",
+    alignItems: "flex-end",
+    gap: "0.5rem",
+  },
+  textField: {
+    flex: 1,
+  },
+  historyButton: {
+    padding: "4px",
+  },
 });
 
 function useSearch(setResults) {
@@ -44,7 +60,12 @@ function useSearch(setResults) {
   });
 
   const [searchState, setSearchState] = useState(undefined);
-  const triggerSearch = () => setSearchState({ ...inputState });
+  const triggerSearch = () => {
+    if (inputState.regex?.trim()) {
+      addToSearchHistory(inputState.regex.trim());
+    }
+    setSearchState({ ...inputState });
+  };
 
   useEffect(() => {
     if (searchState) {
@@ -116,11 +137,14 @@ function useSearch(setResults) {
     onTextChange,
     onTextKeyDown,
     triggerSearch,
+    setInputState,
   };
 }
 
 const Search = ({ setResults, lang }) => {
   const classes = useStyles({ lang });
+  const [historyAnchorEl, setHistoryAnchorEl] = useState(null);
+  const [searchHistory, setSearchHistory] = useState([]);
 
   const {
     inputState,
@@ -130,7 +154,26 @@ const Search = ({ setResults, lang }) => {
     onTextChange,
     onTextKeyDown,
     triggerSearch,
+    setInputState,
   } = useSearch(setResults);
+
+  useEffect(() => {
+    setSearchHistory(getSearchHistory());
+  }, []);
+
+  const handleHistoryClick = (event) => {
+    setHistoryAnchorEl(event.currentTarget);
+    setSearchHistory(getSearchHistory());
+  };
+
+  const handleHistoryClose = () => {
+    setHistoryAnchorEl(null);
+  };
+
+  const handleHistorySelect = (query) => {
+    setInputState({ regex: query });
+    handleHistoryClose();
+  };
 
   const { section, book, chapter, chapters, regex } = inputState;
   return (
@@ -162,13 +205,52 @@ const Search = ({ setResults, lang }) => {
         lang={lang}
         className={classes.select}
       />
-      <TextField
-        value={regex}
-        onChange={onTextChange}
-        InputProps={{ classes: { root: classes.search } }}
-        onKeyDown={onTextKeyDown}
-        className={classes.alignBottom}
-      />
+      <div className={classes.searchContainer}>
+        <IconButton
+          onClick={handleHistoryClick}
+          className={classes.historyButton}
+          size="small"
+          title={getText("Search History", lang)}
+        >
+          <History />
+        </IconButton>
+        <Menu
+          anchorEl={historyAnchorEl}
+          open={Boolean(historyAnchorEl)}
+          onClose={handleHistoryClose}
+          PaperProps={{
+            style: {
+              maxHeight: 300,
+              width: '300px',
+            },
+          }}
+        >
+          {searchHistory.length === 0 ? (
+            <MenuItem disabled>
+              {getText("No search history", lang)}
+            </MenuItem>
+          ) : (
+            searchHistory.map((query) => (
+              <MenuItem
+                key={query}
+                onClick={() => handleHistorySelect(query)}
+                style={{
+                  fontFamily: "Menlo, Monaco, monospace",
+                  fontSize: "0.9rem",
+                }}
+              >
+                {query}
+              </MenuItem>
+            ))
+          )}
+        </Menu>
+        <TextField
+          value={regex}
+          onChange={onTextChange}
+          InputProps={{ classes: { root: classes.search } }}
+          onKeyDown={onTextKeyDown}
+          className={classes.textField}
+        />
       <Button
         variant="contained"
         color="primary"
@@ -177,6 +259,7 @@ const Search = ({ setResults, lang }) => {
       >
         {getText("Search", lang)}
       </Button>
+      </div>
     </Paper>
   );
 };

@@ -58,6 +58,8 @@ const HEBREW = {
   Text: "כתוב",
   Search: "חיפוש",
   All: "הכל",
+  "Search History": "היסטוריית חיפוש",
+  "No search history": "אין היסטוריית חיפוש",
   ...SECTIONS,
   ...BOOK_NAMES,
   ...MISC,
