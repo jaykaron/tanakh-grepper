@@ -273,4 +273,4 @@ const numChapters = async (section, book) => {
   return 0;
 };
 
-export { search, sectionTitles, bookTitles, numChapters };
+export { search, sectionTitles, bookTitles, numChapters, hebraicizeRegex };
