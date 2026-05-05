@@ -1,3 +1,5 @@
+import { cleanPassuk } from "./utils/cleanText";
+
 const loadJsonBook = (section, book, chapter) => {
   const bookData = require(`./jsonText/${section}/${book}.json`);
   const text = bookData["text"];
@@ -203,16 +205,17 @@ const _searchChapter = (chapterText, regex) => {
 };
 
 const searchLine = (line, regex) => {
+  const cleanedLine = cleanPassuk(line);
   let matches = [];
   let result = {
-    text: line,
+    text: cleanedLine,
     matches,
   };
 
-  let match = regex.exec(line);
+  let match = regex.exec(cleanedLine);
   while (match !== null) {
     matches.push({ match: match[0], index: match.index, _match: match });
-    match = regex.exec(line);
+    match = regex.exec(cleanedLine);
   }
 
   if (matches.length === 0) {
